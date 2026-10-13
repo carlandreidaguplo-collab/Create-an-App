@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import users from "../users";
 import UserCard from "../components/UserCard";
@@ -7,6 +6,15 @@ function Users() {
   const [teamMembers, setTeamMembers] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
+  const [favorites, setFavorites] = useState([]);
+
+  function toggleFavorite(userId) {
+    setFavorites((previousFavorites) =>
+      previousFavorites.includes(userId)
+        ? previousFavorites.filter((id) => id !== userId)
+        : [...previousFavorites, userId]
+    );
+  }
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -39,9 +47,18 @@ function Users() {
       ) : (
         <div className="user-list">
           {filteredUsers.map((user) => (
-            <UserCard key={user.id} user={user} />
+            <UserCard
+              key={user.id}
+              user={user}
+              isFavorite={favorites.includes(user.id)}
+              onToggleFavorite={() => toggleFavorite(user.id)}
+            />
           ))}
         </div>
+      )}
+
+      {!loading && (
+        <p>Total favorites: {favorites.length}</p>
       )}
     </div>
   );

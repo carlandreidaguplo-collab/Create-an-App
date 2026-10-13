@@ -1,11 +1,7 @@
-
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "./Button";
 
-function UserCard({ user }) {
-  const [isFavorite, setIsFavorite] = useState(false);
-
+function UserCard({ user, isFavorite, onToggleFavorite }) {
   return (
     <div className="user-card">
       <h2>
@@ -16,8 +12,8 @@ function UserCard({ user }) {
       <p>Company: {user.company}</p>
       <p>Role: {user.role}</p>
 
-      <Button onClick={() => setIsFavorite(!isFavorite)}>
-        {isFavorite ? "★ Favorited" : "☆ Add to Favorites"}
+      <Button onClick={onToggleFavorite}>
+        {isFavorite ? "★ Remove from Favorites" : "☆ Add to Favorites"}
       </Button>
     </div>
   );
